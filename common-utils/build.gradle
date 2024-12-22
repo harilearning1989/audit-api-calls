@@ -1,0 +1,67 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'maven-publish'
+}
+
+group = 'com.web.utils'
+version = '1.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(20)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+/*jar {
+	archiveBaseName.set('common-utils')
+	archiveVersion.set('1.0.0')
+	archiveClassifier.set('release')
+}*/
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+		}
+	}
+	repositories {
+		mavenLocal()
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.oracle.database.jdbc:ojdbc8:19.8.0.0'  // Replace with your Oracle JDBC version
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+/*bootJar {
+	archiveBaseName.set('common-utils') // Custom JAR name
+	archiveVersion.set(project.version)     // Append project version
+	archiveClassifier.set('release')        // Optional classifier
+	destinationDirectory.set(file("$buildDir/libs")) // Default output directory
+}*/
+
+//./gradlew clean
+//./gradlew publishToMavenLocal
+
+//./gradle clean
+//./gradlew bootJar
+//./gradlew publishToMavenLocal
